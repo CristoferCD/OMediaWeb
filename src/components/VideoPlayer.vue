@@ -1,7 +1,7 @@
 <template>
     <div>
         <p> Loading video with id {{this.$route.params.id}} </p>
-        <video :src="videoSrc"/>
+        <video :src="videoSrc" autoplay="true" controls="true"/>
     </div>
 </template>
 
@@ -21,5 +21,7 @@ export default {
 </script>
 
 <style>
-
+video {
+    width: 70%;
+}
 </style>

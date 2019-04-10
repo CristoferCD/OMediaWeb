@@ -11,8 +11,30 @@
         <div class="media-content">
           <h1>Sinopsis</h1>
           <p>{{show.sinopsis}}</p>
-          <button @click="loadVideo"/>
-          <b-table :data="episodes" :columns="columns"/>
+          <b-table :data="episodes" 
+                   detailed
+                   detail-key="id"
+                   :show-detail-icon="true"
+                   :opened-detailed="defaultOpenedDetails">
+            <template slot-scope="props">
+              <b-table-column field="episodeNumber" label="Episode" width="40">
+                {{props.row.episodeNumber}}
+              </b-table-column>
+              <b-table-column field="name" label="Name">
+                {{props.row.name}}
+              </b-table-column>
+              <b-table-column>
+                <button class="button is-link" @click="loadVideo(props.row.id)">
+                  <i class="fas fa-play"/>
+                </button>
+              </b-table-column>
+            </template>
+
+            <template slot="detail" slot-scope="props">
+              <h1>Sinopsis</h1>
+              <p>{{props.row.sinopsis}}</p>
+            </template>
+          </b-table>
         </div>
       </div>
     </section>
@@ -29,29 +51,15 @@ export default {
   },
   data() {
     return {
-      columns: [
-        {
-          field: "episodeNumber",
-          label: "Episode",
-          width: "40"
-        },
-        {
-          field: "name",
-          label: "Name"
-        },
-        {
-          field: "sinopsis",
-          label: "Sinopsis"
-        }
-      ]
+      defaultOpenedDetails: [0]
     };
   },
   async created() {
     this.episodes = await getEpisodes(this.show.imdbId);
   },
   methods: {
-    loadVideo: function() {
-      this.$router.push('/video/1')
+    loadVideo: function(id) {
+      this.$router.push("/video/"+id);
     }
   }
 };
@@ -59,8 +67,8 @@ export default {
 
 <style>
 .modal-card {
-  width: 80%;
-  margin: auto;
+  width: 100% !important;
+  margin: auto !important;
 }
 .media-left {
   width: 20%;

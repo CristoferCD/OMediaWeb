@@ -5,7 +5,6 @@
         <figure class="image">
           <img :src="show.imgPoster">
         </figure>
-        <p class="show-title">{{show.name}}</p>
       </div>
     </section>
     <section id="modals">

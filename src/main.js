@@ -2,6 +2,7 @@ import Vue from 'vue/dist/vue.esm.js'
 import Router from 'vue-router'
 import App from './App.vue'
 import VideoPlayer from './components/VideoPlayer.vue'
+import Login from './components/Login.vue'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 
@@ -18,6 +19,10 @@ const router = new Router({
     {
       path: "/video/:id",
       component: VideoPlayer
+    },
+    {
+      path: "/login",
+      component: Login
     }
   ]
 })
