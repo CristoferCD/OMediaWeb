@@ -1,5 +1,13 @@
 <template>
   <div>
+    <section id="action-bar">
+      <b-field>
+        <b-input placeholder="Register show..." v-model="imdbId"></b-input>
+        <p class="control">
+          <button class="button is-primary" @click="registerShow">Add</button>
+        </p>
+      </b-field>
+    </section>
     <section id="show-list">
       <div class="show-card" v-for="show in showList" :key="show.imdbId" @click="openDetails(show)">
         <figure class="image">
@@ -17,7 +25,7 @@
 
 <script>
 import ShowDetails from "./ShowDetails.vue"
-import { login, getShows } from "../js/omdb";
+import { getShows, registerShow } from "../js/omdb";
 
 export default {
   name: "ShowList",
@@ -31,17 +39,22 @@ export default {
     return {
       showList: [],
       currentShow: {},
-      isDetailsModalActive: false
+      isDetailsModalActive: false,
+      imdbId: ""
     };
   },
   async created() {
-    login("Cristofer", "1234");
     this.showList = await getShows();
   },
   methods: {
     openDetails: function(show) {
       this.currentShow = show;
       this.isDetailsModalActive = true;
+    },
+
+    registerShow: async function() {
+      await registerShow(this.imdbId)
+      this.showList = await getShows();
     }
   }
 };
@@ -90,5 +103,11 @@ img {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   width: 80%;
   margin: auto;
+}
+#action-bar {
+  margin-bottom: 2vh;
+}
+#action-bar > .field{
+  justify-content: flex-end;
 }
 </style>

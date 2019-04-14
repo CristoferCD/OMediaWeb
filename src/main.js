@@ -27,6 +27,18 @@ const router = new Router({
   ]
 })
 
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login', '/singup']
+  const authRequired = !publicPages.includes(to.path)
+  const loggedIn = localStorage.getItem('authToken')
+
+  if (authRequired && !loggedIn) {
+    return next('/login')
+  }
+
+  next()
+})
+
 new Vue({
   router
 }).$mount('#app')

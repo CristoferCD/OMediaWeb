@@ -27,6 +27,16 @@ export async function getShows() {
     return await response.json()
 }
 
+export async function registerShow(imdbId) {
+    await fetch(baseUrl + "/shows?imdbId=" + imdbId, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.authToken
+        }
+    })
+}
+
 export async function getEpisodes(showId) {
     const response = await fetch(baseUrl + "/episodes?show="+showId, {
         method: "GET",

@@ -24,8 +24,14 @@
                 {{props.row.name}}
               </b-table-column>
               <b-table-column>
-                <button class="button is-link" @click="loadVideo(props.row.id)">
+                <button class="button is-link" @click="loadVideo(props.row.id)" :disabled="props.row.fileId === null">
                   <i class="fas fa-play"/>
+                </button>
+              </b-table-column>
+              <b-table-column>
+                <button class="button is-link">
+                  <i class="far fa-eye" v-show="props.row.seen"/>
+                  <i class="far fa-eye-slash" v-show="!props.row.seen"/>
                 </button>
               </b-table-column>
             </template>
