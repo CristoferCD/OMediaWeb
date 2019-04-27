@@ -11,7 +11,15 @@
         <div class="media-content">
           <h1>Sinopsis</h1>
           <p>{{show.sinopsis}}</p>
-          <b-table :data="episodes" 
+          <b-field label="Season" class="is-pulled-right">
+            <b-select v-model="selectedSeason" @input="seasonChanged">
+              <option v-for="opt in allSeasons"
+                      :value="opt" :key="opt">
+                {{opt}}
+              </option>
+            </b-select>
+          </b-field>
+          <b-table :data="season" 
                    detailed
                    detail-key="id"
                    :show-detail-icon="true"
@@ -23,6 +31,9 @@
               <b-table-column field="name" label="Name">
                 {{props.row.name}}
               </b-table-column>
+              <b-table-column field="airDate" label="Air Date">
+                {{props.row.airDate}}
+              </b-table-column>
               <b-table-column>
                 <button class="button is-link" @click="loadVideo(props.row.id)" :disabled="props.row.fileId === null">
                   <i class="fas fa-play"/>
@@ -33,6 +44,14 @@
                   <i class="far fa-eye" v-show="props.row.seen"/>
                   <i class="far fa-eye-slash" v-show="!props.row.seen"/>
                 </button>
+              </b-table-column>
+              <b-table-column>
+                <b-upload v-model="file" @input="onFileInput(props.row)">
+                    <a class="button is-primary">
+                        <i class="fas fa-upload"/>
+                        <span>Click to upload</span>
+                    </a>
+                </b-upload>
               </b-table-column>
             </template>
 
@@ -48,12 +67,16 @@
 </template>
 
 <script>
-import { getEpisodes } from "../js/omdb";
+import { getEpisodes, uploadFile } from "../js/omdb";
 
 export default {
   props: {
     show: {},
-    episodes: []
+    selectedSeason: null,
+    season: [],
+    allEpisodes: [],
+    allSeasons: [],
+    file: null
   },
   data() {
     return {
@@ -61,11 +84,23 @@ export default {
     };
   },
   async created() {
-    this.episodes = await getEpisodes(this.show.imdbId);
+    this.allEpisodes = await getEpisodes(this.show.imdbId);
+    this.allSeasons = []
+    for (const ep of this.allEpisodes) {
+      if(!this.allSeasons.includes(ep.season)) {
+        this.allSeasons.push(ep.season)
+      }
+    }
   },
   methods: {
-    loadVideo: function(id) {
+    loadVideo(id) {
       this.$router.push("/video/"+id);
+    },
+    onFileInput(episode) {
+      uploadFile(this.file, this.show.imdbId, episode.season, episode.episodeNumber)
+    },
+    seasonChanged() {
+      this.season = this.allEpisodes.filter(ep => ep.season === this.selectedSeason)
     }
   }
 };
