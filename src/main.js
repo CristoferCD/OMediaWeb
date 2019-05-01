@@ -1,6 +1,7 @@
 import Vue from 'vue/dist/vue.esm.js'
 import Router from 'vue-router'
 import App from './App.vue'
+import ShowList from './components/ShowList.vue'
 import VideoPlayer from './components/VideoPlayer.vue'
 import Login from './components/Login.vue'
 import Buefy from 'buefy'
@@ -14,7 +15,7 @@ const router = new Router({
   routes: [
     {
       path: "/",
-      component: App
+      component: ShowList
     },
     {
       path: "/video/:id",
@@ -40,5 +41,7 @@ router.beforeEach((to, from, next) => {
 })
 
 new Vue({
-  router
-}).$mount('#app')
+  el: '#app',
+  router,
+  render: h => h(App)
+})
