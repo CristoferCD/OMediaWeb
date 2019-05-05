@@ -1,7 +1,8 @@
 import Vue from 'vue/dist/vue.esm.js'
 import Router from 'vue-router'
 import App from './App.vue'
-import ShowList from './components/ShowList.vue'
+import Home from './components/Home.vue'
+import Discover from './components/Discover.vue'
 import VideoPlayer from './components/VideoPlayer.vue'
 import Login from './components/Login.vue'
 import Buefy from 'buefy'
@@ -15,7 +16,7 @@ const router = new Router({
   routes: [
     {
       path: "/",
-      component: ShowList
+      component: Home
     },
     {
       path: "/video/:id",
@@ -24,6 +25,10 @@ const router = new Router({
     {
       path: "/login",
       component: Login
+    },
+    {
+      path: "/discover",
+      component: Discover
     }
   ]
 })

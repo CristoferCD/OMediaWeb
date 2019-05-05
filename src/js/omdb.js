@@ -73,3 +73,11 @@ export function uploadFile(file, showId, seasonNumber, episodeNumber) {
         }
     })
 }
+
+export async function search(query) {
+    const response = await fetch(baseUrl + "/shows/search?query=" + query, {
+        method: "GET",
+        headers: getHeaders()
+    })
+    return await response.json()
+}

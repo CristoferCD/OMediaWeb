@@ -9,7 +9,7 @@
       </b-field>
     </section>
     <section id="show-list">
-      <div class="show-card" v-for="show in showList" :key="show.imdbId" @click="openDetails(show)">
+      <div class="show-card" v-for="show in shows" :key="show.imdbId" @click="openDetails(show)">
         <figure class="image">
           <img :src="show.imgPoster">
         </figure>
@@ -33,18 +33,14 @@ export default {
     ShowDetails
   },
   props: {
-    msg: String
+    shows: []
   },
   data() {
     return {
-      showList: [],
       currentShow: {},
       isDetailsModalActive: false,
       imdbId: ""
     };
-  },
-  async created() {
-    this.showList = await getShows();
   },
   methods: {
     openDetails: function(show) {
@@ -54,7 +50,7 @@ export default {
 
     registerShow: async function() {
       await registerShow(this.imdbId)
-      this.showList = await getShows();
+      this.shows = await getShows();
     }
   }
 };
