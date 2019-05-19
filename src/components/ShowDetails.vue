@@ -35,7 +35,7 @@
                 {{props.row.airDate}}
               </b-table-column>
               <b-table-column>
-                <button class="button is-link" @click="loadVideo(props.row.id)" :disabled="props.row.fileId === null">
+                <button class="button is-link" @click="loadVideo(props.row.fileId)" :disabled="props.row.fileId === null">
                   <i class="fas fa-play"/>
                 </button>
               </b-table-column>
@@ -91,6 +91,8 @@ export default {
         this.allSeasons.push(ep.season)
       }
     }
+    this.selectedSeason = this.allSeasons[0]
+    this.seasonChanged()
   },
   methods: {
     loadVideo(id) {

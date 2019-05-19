@@ -37,4 +37,7 @@ export default {
 </script>
 
 <style>
+b-field {
+  margin: 1vw;
+}
 </style>
