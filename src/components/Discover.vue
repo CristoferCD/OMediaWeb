@@ -9,6 +9,7 @@
         </p>
     </b-field>
     <ShowList :shows="shows"/>
+    <b-loading :is-full-page="true" :active.sync="isLoading"/>
   </div>
 </template>
 
@@ -24,13 +25,16 @@ export default {
   data() {
     return {
       query: "",
-      shows: []
+      shows: [],
+      isLoading: false
     };
   },
   methods: {
     async search() {
+      this.isLoading = true
       const pagedShows = await search(this.query);
       this.shows = pagedShows.data
+      this.isLoading = false
     }
   }
 };

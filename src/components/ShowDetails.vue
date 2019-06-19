@@ -13,45 +13,48 @@
           <p>{{show.sinopsis}}</p>
           <b-field label="Season" class="is-pulled-right">
             <b-select v-model="selectedSeason" @input="seasonChanged">
-              <option v-for="opt in allSeasons"
-                      :value="opt" :key="opt">
-                {{opt}}
-              </option>
+              <option v-for="opt in allSeasons" :value="opt" :key="opt">{{opt}}</option>
             </b-select>
           </b-field>
-          <b-table :data="season" 
-                   detailed
-                   detail-key="id"
-                   :show-detail-icon="true"
-                   :opened-detailed="defaultOpenedDetails">
+          <b-table
+            :data="season"
+            detailed
+            detail-key="id"
+            :show-detail-icon="true"
+            :opened-detailed="defaultOpenedDetails"
+          >
             <template slot-scope="props">
-              <b-table-column field="episodeNumber" label="Episode" width="40">
-                {{props.row.episodeNumber}}
-              </b-table-column>
-              <b-table-column field="name" label="Name">
-                {{props.row.name}}
-              </b-table-column>
-              <b-table-column field="airDate" label="Air Date">
-                {{props.row.airDate}}
-              </b-table-column>
+              <b-table-column
+                field="episodeNumber"
+                label="Episode"
+                width="40"
+              >{{props.row.episodeNumber}}</b-table-column>
+              <b-table-column field="name" label="Name">{{props.row.name}}</b-table-column>
+              <b-table-column field="airDate" label="Air Date">{{props.row.airDate}}</b-table-column>
               <b-table-column>
-                <button class="button is-link" @click="loadVideo(props.row.fileId)" :disabled="props.row.fileId === null">
+                <b-button
+                  type="is-link"
+                  tag="router-link"
+                  :to="'/video/' + props.row.fileId"
+                  :disabled="props.row.fileId === null"
+                >
                   <i class="fas fa-play"/>
-                </button>
+                </b-button>
               </b-table-column>
               <b-table-column>
-                <button class="button is-link">
+                <b-button type="is-link" @click="markSeen(props.row.id, !props.row.seen)">
                   <i class="far fa-eye" v-show="props.row.seen"/>
                   <i class="far fa-eye-slash" v-show="!props.row.seen"/>
-                </button>
+                </b-button>
               </b-table-column>
               <b-table-column>
                 <b-upload v-model="file" @input="onFileInput(props.row)">
-                    <a class="button is-primary">
-                        <i class="fas fa-upload"/>
-                        <span>Click to upload</span>
-                    </a>
+                  <a class="button is-primary">
+                    <i class="fas fa-upload"/>
+                    <span>Click to upload</span>
+                  </a>
                 </b-upload>
+                <progress class="progress" :value="uploadProgress" max="100" :v-show="uploadProgress != 0"/>
               </b-table-column>
             </template>
 
@@ -67,7 +70,7 @@
 </template>
 
 <script>
-import { getEpisodes, uploadFile } from "../js/omdb";
+import { getEpisodes, uploadFile, setSeen } from "../js/omdb";
 
 export default {
   props: {
@@ -80,29 +83,44 @@ export default {
   },
   data() {
     return {
-      defaultOpenedDetails: [0]
+      defaultOpenedDetails: [0],
+      uploadProgress: {}
     };
   },
   async created() {
     this.allEpisodes = await getEpisodes(this.show.imdbId);
-    this.allSeasons = []
+    this.allSeasons = [];
     for (const ep of this.allEpisodes) {
-      if(!this.allSeasons.includes(ep.season)) {
-        this.allSeasons.push(ep.season)
+      if (!this.allSeasons.includes(ep.season)) {
+        this.allSeasons.push(ep.season);
       }
     }
-    this.selectedSeason = this.allSeasons[0]
-    this.seasonChanged()
+    this.selectedSeason = this.allSeasons[0];
+    this.seasonChanged();
   },
   methods: {
-    loadVideo(id) {
-      this.$router.push("/video/"+id);
-    },
     onFileInput(episode) {
-      uploadFile(this.file, this.show.imdbId, episode.season, episode.episodeNumber)
+      this.uploadProgress = 0;
+      uploadFile(
+        this.file,
+        this.show.imdbId,
+        episode.season,
+        episode.episodeNumber,
+        this.updateProgress
+      );
     },
     seasonChanged() {
-      this.season = this.allEpisodes.filter(ep => ep.season === this.selectedSeason)
+      this.season = this.allEpisodes.filter(
+        ep => ep.season === this.selectedSeason
+      );
+    },
+    updateProgress(evt) {
+      if (evt.lengthComputable) {
+        this.uploadProgress = (evt.loaded / evt.total) * 100;
+      } 
+    },
+    async markSeen(episodeId, seen) {
+      await setSeen(episodeId, seen)
     }
   }
 };
