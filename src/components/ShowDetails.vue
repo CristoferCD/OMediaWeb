@@ -54,7 +54,12 @@
                     <span>Click to upload</span>
                   </a>
                 </b-upload>
-                <progress class="progress" :value="uploadProgress" max="100" :v-show="uploadProgress != 0"/>
+                <progress
+                  class="progress"
+                  :value="uploadProgress"
+                  max="100"
+                  :v-show="uploadProgress != 0"
+                />
               </b-table-column>
             </template>
 
@@ -117,10 +122,10 @@ export default {
     updateProgress(evt) {
       if (evt.lengthComputable) {
         this.uploadProgress = (evt.loaded / evt.total) * 100;
-      } 
+      }
     },
     async markSeen(episodeId, seen) {
-      await setSeen(episodeId, seen)
+      await setSeen(episodeId, seen);
     }
   }
 };

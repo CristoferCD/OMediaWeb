@@ -4,15 +4,23 @@
       <b-field>
         <b-input placeholder="Register show..." v-model="imdbId"></b-input>
         <p class="control">
-          <button class="button is-primary" @click="registerShow">Add</button>
+          <b-button class="is-primary" @click="registerShow">Add</b-button>
         </p>
       </b-field>
     </section>
     <section id="show-list">
-      <div class="show-card" v-for="show in shows" :key="show.imdbId" @click="openDetails(show)">
-        <figure class="image">
-          <img :src="show.imgPoster">
-        </figure>
+      <div class="show-item" v-for="show in shows" :key="show.imdbId" @click="openDetails(show)">
+        <div class="show-card">
+          <figure class="image">
+            <img :src="show.imgPoster">
+          </figure>
+        </div>
+        <div class="show-info is-overlay">
+          <p>{{show.name}}</p>
+          <b-button>
+            <i class="far fa-calendar-plus"/>
+          </b-button>
+        </div>
       </div>
     </section>
     <section id="modals">
@@ -24,7 +32,7 @@
 </template>
 
 <script>
-import ShowDetails from "./ShowDetails.vue"
+import ShowDetails from "./ShowDetails.vue";
 import { getShows, registerShow } from "../js/omdb";
 
 export default {
@@ -49,7 +57,7 @@ export default {
     },
 
     registerShow: async function() {
-      await registerShow(this.imdbId)
+      await registerShow(this.imdbId);
       this.shows = await getShows();
     }
   }
@@ -72,17 +80,37 @@ li {
 a {
   color: #42b983;
 }
-img {
+figure {
   border-radius: 6px;
+  height: 100%;
 }
-.show-card {
+.show-item {
   position: relative;
-  box-shadow: 3px 3px 20px black;
   border-radius: 6px;
   flex: 1 1 0;
   max-width: 12vw;
   min-width: 10rem;
-  margin: .8vw;
+  margin: 0.8vw;
+}
+.show-item:hover > .show-card {
+  filter: blur(3px);
+}
+.show-item:hover > .show-info {
+  opacity: 1;
+}
+.show-card {
+  box-shadow: 3px 3px 20px black;
+  border-radius: 6px;
+  height: 100%;
+}
+.show-info {
+  transition: 0.3s;
+  opacity: 0;
+}
+.show-info > .button {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 1vw;
 }
 .show-title {
   display: flex;
@@ -92,6 +120,10 @@ img {
   width: 100%;
   justify-content: center;
   align-items: flex-end;
+}
+.image > img {
+  border-radius: 6px;
+  height: 100%;
 }
 #show-list {
   display: grid;
@@ -103,7 +135,7 @@ img {
 #action-bar {
   margin-bottom: 2vh;
 }
-#action-bar > .field{
+#action-bar > .field {
   justify-content: flex-end;
 }
 </style>
