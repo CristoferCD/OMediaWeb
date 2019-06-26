@@ -8,29 +8,23 @@
         <b-input type="password" v-model="pass" password-reveal/>
       </b-field>
       <p class="control has-text-centered">
-        <button class="button is-primary" @click="login">Login</button>
+        <button class="button is-primary" @click="login({name: name, pass: pass})">Login</button>
       </p>
     </div>
   </section>
 </template>
 
 <script>
-import { login } from "../js/omdb";
+import {mapActions} from 'vuex'
 
 export default {
-
   data() {
     return {
       name: "",
       pass: ""
     };
   },
-  methods: {
-    login: function() {
-      login(this.name, this.pass)
-      this.$router.push('/')
-    }
-  }
+  methods: mapActions('user', ['login'])
 };
 </script>
 

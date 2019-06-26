@@ -33,7 +33,7 @@
 
 <script>
 import ShowDetails from "./ShowDetails.vue";
-import { getShows, registerShow } from "../js/omdb";
+import omdb from "../js/omdb";
 
 export default {
   name: "ShowList",
@@ -57,8 +57,8 @@ export default {
     },
 
     registerShow: async function() {
-      await registerShow(this.imdbId);
-      this.shows = await getShows();
+      await omdb.registerShow(this.imdbId);
+      this.shows = await omdb.getShows();
     }
   }
 };

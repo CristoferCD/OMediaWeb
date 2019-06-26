@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { getEpisodes, uploadFile, setSeen } from "../js/omdb";
+import omdb from "../js/omdb";
 
 export default {
   props: {
@@ -93,7 +93,7 @@ export default {
     };
   },
   async created() {
-    this.allEpisodes = await getEpisodes(this.show.imdbId);
+    this.allEpisodes = await omdb.getEpisodes(this.show.imdbId);
     this.allSeasons = [];
     for (const ep of this.allEpisodes) {
       if (!this.allSeasons.includes(ep.season)) {
@@ -106,7 +106,7 @@ export default {
   methods: {
     onFileInput(episode) {
       this.uploadProgress = 0;
-      uploadFile(
+      omdb.uploadFile(
         this.file,
         this.show.imdbId,
         episode.season,
@@ -125,7 +125,7 @@ export default {
       }
     },
     async markSeen(episodeId, seen) {
-      await setSeen(episodeId, seen);
+      await omdb.setSeen(episodeId, seen);
     }
   }
 };

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { loadVideo } from "../js/omdb";
+import omdb from "../js/omdb";
 export default {
   name: "VideoPlayer",
   data() {
@@ -18,7 +18,7 @@ export default {
     };
   },
   async created() {
-    this.videoSrc = await loadVideo(this.$route.params.id);
+    this.videoSrc = await omdb.loadVideo(this.$route.params.id);
   }
 };
 </script>

@@ -4,7 +4,7 @@
 
 <script>
 import ShowList from "./ShowList.vue";
-import { getShows } from "../js/omdb";
+import omdb from "../js/omdb";
 
 export default {
   name: "Home",
@@ -17,7 +17,7 @@ export default {
     };
   },
   async created() {
-    this.shows = await getShows();
+    this.shows = await omdb.getShows();
   }
 };
 </script>

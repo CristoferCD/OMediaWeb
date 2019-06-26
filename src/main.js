@@ -1,6 +1,7 @@
-import Vue from 'vue/dist/vue.esm.js'
+import Vue from 'vue'
 import Router from 'vue-router'
 import App from './App.vue'
+import store from './store/store'
 import Home from './components/Home.vue'
 import Discover from './components/Discover.vue'
 import VideoPlayer from './components/VideoPlayer.vue'
@@ -47,6 +48,7 @@ router.beforeEach((to, from, next) => {
 
 new Vue({
   el: '#app',
+  store,
   router,
   render: h => h(App)
 })

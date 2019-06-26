@@ -15,7 +15,7 @@
 
 <script>
 import ShowList from "./ShowList.vue";
-import { search } from "../js/omdb";
+import omdb from "../js/omdb";
 
 export default {
   name: "Discover",
@@ -32,7 +32,7 @@ export default {
   methods: {
     async search() {
       this.isLoading = true
-      const pagedShows = await search(this.query);
+      const pagedShows = await omdb.search(this.query);
       this.shows = pagedShows.data
       this.isLoading = false
     }
