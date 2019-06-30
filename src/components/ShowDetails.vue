@@ -6,18 +6,18 @@
     <section class="modal-card-body">
       <div class="media">
         <figure class="media-left">
-          <img :src="show.imgPoster">
+          <img :src="show.imgPoster" />
         </figure>
         <div class="media-content">
           <h1>Sinopsis</h1>
           <p>{{show.sinopsis}}</p>
           <b-field label="Season" class="is-pulled-right">
             <b-select v-model="selectedSeason" @input="seasonChanged">
-              <option v-for="opt in allSeasons" :value="opt" :key="opt">{{opt}}</option>
+              <option v-for="opt in seasonIdxList" :value="opt" :key="opt">{{opt}}</option>
             </b-select>
           </b-field>
           <b-table
-            :data="season"
+            :data="episodes"
             detailed
             detail-key="id"
             :show-detail-icon="true"
@@ -38,19 +38,19 @@
                   :to="'/video/' + props.row.fileId"
                   :disabled="props.row.fileId === null"
                 >
-                  <i class="fas fa-play"/>
+                  <i class="fas fa-play" />
                 </b-button>
               </b-table-column>
               <b-table-column>
                 <b-button type="is-link" @click="markSeen(props.row.id, !props.row.seen)">
-                  <i class="far fa-eye" v-show="props.row.seen"/>
-                  <i class="far fa-eye-slash" v-show="!props.row.seen"/>
+                  <i class="far fa-eye" v-show="props.row.seen" />
+                  <i class="far fa-eye-slash" v-show="!props.row.seen" />
                 </b-button>
               </b-table-column>
               <b-table-column>
                 <b-upload v-model="file" @input="onFileInput(props.row)">
                   <a class="button is-primary">
-                    <i class="fas fa-upload"/>
+                    <i class="fas fa-upload" />
                     <span>Click to upload</span>
                   </a>
                 </b-upload>
@@ -76,48 +76,31 @@
 
 <script>
 import omdb from "../js/omdb";
+import { mapGetters } from "vuex";
 
 export default {
-  props: {
-    show: {},
-    selectedSeason: null,
-    season: [],
-    allEpisodes: [],
-    allSeasons: [],
-    file: null
-  },
   data() {
     return {
       defaultOpenedDetails: [0],
-      uploadProgress: {}
+      uploadProgress: {},
+      selectedSeason: 0
     };
   },
   async created() {
-    this.allEpisodes = await omdb.getEpisodes(this.show.imdbId);
-    this.allSeasons = [];
-    for (const ep of this.allEpisodes) {
-      if (!this.allSeasons.includes(ep.season)) {
-        this.allSeasons.push(ep.season);
-      }
-    }
-    this.selectedSeason = this.allSeasons[0];
-    this.seasonChanged();
+    this.$store.dispatch("showDetails/initShow", {
+      imdbId: this.$route.params.id
+    });
   },
+  computed: mapGetters("showDetails", {
+    show: "getShow",
+    episodes: "getEpisodes",
+    seasonIdxList: "getSeasonIdxList"
+  }),
   methods: {
-    onFileInput(episode) {
-      this.uploadProgress = 0;
-      omdb.uploadFile(
-        this.file,
-        this.show.imdbId,
-        episode.season,
-        episode.episodeNumber,
-        this.updateProgress
-      );
-    },
     seasonChanged() {
-      this.season = this.allEpisodes.filter(
-        ep => ep.season === this.selectedSeason
-      );
+      this.$store.commit("showDetails/selectSeason", {
+        idx: this.selectedSeason
+      });
     },
     updateProgress(evt) {
       if (evt.lengthComputable) {

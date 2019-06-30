@@ -23,37 +23,29 @@
         </div>
       </div>
     </section>
-    <section id="modals">
-      <b-modal :active.sync="isDetailsModalActive">
-        <ShowDetails :show="currentShow"/>
-      </b-modal>
-    </section>
   </div>
 </template>
 
 <script>
-import ShowDetails from "./ShowDetails.vue";
+import {mapGetters} from 'vuex';
 import omdb from "../js/omdb";
 
 export default {
   name: "ShowList",
-  components: {
-    ShowDetails
-  },
-  props: {
-    shows: []
-  },
+  computed: mapGetters('showlist', {shows: 'getAllShows'}),
   data() {
     return {
       currentShow: {},
       isDetailsModalActive: false,
       imdbId: ""
     };
+  },  
+  created() {
+    this.$store.dispatch('showlist/loadAllShows')
   },
   methods: {
     openDetails: function(show) {
-      this.currentShow = show;
-      this.isDetailsModalActive = true;
+      this.$router.push("/show/"+show.imdbId)
     },
 
     registerShow: async function() {

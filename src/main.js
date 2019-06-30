@@ -5,6 +5,7 @@ import store from './store/store'
 import Home from './components/Home.vue'
 import Discover from './components/Discover.vue'
 import VideoPlayer from './components/VideoPlayer.vue'
+import ShowDetails from './components/ShowDetails'
 import Login from './components/Login.vue'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
@@ -22,6 +23,10 @@ const router = new Router({
     {
       path: "/video/:id",
       component: VideoPlayer
+    },
+    {
+      path: "/show/:id",
+      component: ShowDetails
     },
     {
       path: "/login",
