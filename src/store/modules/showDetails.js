@@ -16,6 +16,9 @@ const getters = {
     },
     getSeasonIdxList: (state) => {
         return state. seasonList
+    },
+    getSelectedSeason: (state) => {
+        return state.selectedSeason
     }
 }
 

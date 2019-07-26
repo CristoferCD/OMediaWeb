@@ -1,6 +1,7 @@
 import user from './modules/user'
 import showlist from './modules/showlist'
 import showDetails from './modules/showDetails'
+import fileUpload from './modules/fileUpload'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -10,6 +11,7 @@ export default new Vuex.Store({
     modules: {
         user,
         showlist,
-        showDetails
+        showDetails,
+        fileUpload
     }
 })
