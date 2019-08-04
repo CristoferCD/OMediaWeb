@@ -9,7 +9,7 @@ export default {
     },
 
     login(username, password) {
-        fetch(baseUrl + "/login", {
+        return fetch(baseUrl + "/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -18,11 +18,16 @@ export default {
                 "name": username,
                 "password": password
             })
-        }).then(res => res.json())
+        }).then(res => res.json().then(data => ({status: res.status, body: data})))
             .then(response => {
-                localStorage.setItem("authToken", response.token)
+                if (response.status === 200) {
+                    localStorage.setItem("authToken", response.body.token)
+                    return true
+                } else {
+                    localStorage.removeItem("authToken")
+                    return false
+                }
             })
-        return true
     },
 
     async getShows() {

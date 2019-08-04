@@ -33,8 +33,9 @@ section {
     background: lightgray;
 }
 #login-box {
-    margin: auto;
+    margin: 15% auto;
     width: 60vw;
     text-align: left;
+    padding: 1.25rem !important;
 }
 </style>

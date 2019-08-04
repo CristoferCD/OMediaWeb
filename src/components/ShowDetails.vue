@@ -42,17 +42,22 @@
                 <i class="far fa-eye" v-show="ep.seen" />
                 <i class="far fa-eye-slash" v-show="!ep.seen" />
               </b-button>
-              <b-upload
-                class="level-item"
-                v-model="file"
-                loading="true"
-                @input="uploadFile(file, show.imdbId, ep)"
-              >
+              <b-upload class="level-item" v-model="file" @input="uploadFile(show.imdbId, ep)">
                 <b-button>
                   <i class="fas fa-upload" />
                 </b-button>
               </b-upload>
             </div>
+          </div>
+          <div class="progress-container">
+            <b-progress
+              class="progress"
+              :value="uploadProgress[ep.id]"
+              show-value
+              type="is-success"
+              format="percent"
+              v-show="uploadProgress.hasOwnProperty(ep.id)"
+            />
           </div>
         </li>
       </ul>
@@ -62,35 +67,47 @@
 
 <script>
 import omdb from "../js/omdb";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
+  data() {
+    return {
+      file: null
+    };
+  },
   async created() {
     this.$store.dispatch("showDetails/initShow", {
       imdbId: this.$route.params.id
     });
-    this.selectedSeason = this.seasonIdxList[this.seasonIdxList.length - 1]
+    this.selectedSeason = this.seasonIdxList[this.seasonIdxList.length - 1];
   },
   computed: {
     ...mapGetters({
       show: "showDetails/getShow",
       episodes: "showDetails/getEpisodes",
-      seasonIdxList: "showDetails/getSeasonIdxList"
+      seasonIdxList: "showDetails/getSeasonIdxList",
+      uploadProgress: "fileUpload/getUploadProgress"
     }),
     selectedSeason: {
       get() {
-        return this.$store.getters["showDetails/getSelectedSeason"]
+        return this.$store.getters["showDetails/getSelectedSeason"];
       },
       set(value) {
-        this.$store.commit("showDetails/selectSeason", {idx: value})
+        this.$store.commit("showDetails/selectSeason", { idx: value });
       }
     }
   },
   methods: {
-    ...mapActions("fileUpload", ["uploadFile"]),
     seasonChanged() {
       this.$store.commit("showDetails/selectSeason", {
         idx: this.selectedSeason
+      });
+    },
+    uploadFile(id, ep) {
+      this.$store.dispatch("fileUpload/uploadFile", {
+        file: this.file,
+        showId: id,
+        episode: ep
       });
     },
     async markSeen(episodeId, seen) {
@@ -108,16 +125,19 @@ export default {
 }
 .media-left {
   width: 15%;
-  padding: .8vw;
+  padding: 0.8vw;
 }
 .media-left > img {
   box-shadow: 3px 3px 20px black;
 }
 .box {
-  padding: .5vw !important;
-  margin-bottom: .5rem !important;
+  padding: 0.5vw !important;
+  margin-bottom: 0.5rem !important;
 }
 .field > .label {
   margin: 0 10px;
+}
+li > .level {
+  margin-bottom: .2rem !important;
 }
 </style>
