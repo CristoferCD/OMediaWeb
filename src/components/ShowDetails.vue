@@ -43,9 +43,9 @@
                 <i class="far fa-eye-slash" v-show="!ep.seen" />
               </b-button>
               <b-upload class="level-item" v-model="file" @input="uploadFile(show.imdbId, ep)">
-                <b-button>
+                <a class="button">
                   <i class="fas fa-upload" />
-                </b-button>
+                </a>
               </b-upload>
             </div>
           </div>
