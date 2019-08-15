@@ -12,13 +12,13 @@
       <div class="show-item" v-for="show in shows" :key="show.imdbId" @click="openDetails(show)">
         <div class="show-card">
           <figure class="image">
-            <img :src="show.imgPoster">
+            <img :src="show.imgPoster" />
           </figure>
         </div>
         <div class="show-info is-overlay">
           <p>{{show.name}}</p>
           <b-button>
-            <i class="far fa-calendar-plus"/>
+            <i class="far fa-calendar-plus" />
           </b-button>
         </div>
       </div>
@@ -27,25 +27,25 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import { mapGetters } from "vuex";
 import omdb from "../js/omdb";
 
 export default {
   name: "ShowList",
-  computed: mapGetters('showlist', {shows: 'getAllShows'}),
+  computed: mapGetters("showlist", { shows: "getAllShows" }),
   data() {
     return {
       currentShow: {},
       isDetailsModalActive: false,
       imdbId: ""
     };
-  },  
+  },
   created() {
-    this.$store.dispatch('showlist/loadAllShows')
+    this.$store.dispatch("showlist/loadAllShows");
   },
   methods: {
     openDetails: function(show) {
-      this.$router.push("/show/"+show.imdbId)
+      this.$router.push("/show/" + show.imdbId);
     },
 
     registerShow: async function() {
@@ -57,7 +57,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="scss">
 h3 {
   margin: 40px 0 0;
 }
@@ -83,12 +83,16 @@ figure {
   max-width: 12vw;
   min-width: 10rem;
   margin: 0.8vw;
-}
-.show-item:hover > .show-card {
-  filter: blur(3px);
-}
-.show-item:hover > .show-info {
-  opacity: 1;
+
+  &:hover {
+    & > .show-card {
+      filter: blur(3px);
+    }
+
+    & > .show-info {
+      opacity: 1;
+    }
+  }
 }
 .show-card {
   box-shadow: 3px 3px 20px black;
@@ -98,11 +102,12 @@ figure {
 .show-info {
   transition: 0.3s;
   opacity: 0;
-}
-.show-info > .button {
-  position: absolute;
-  bottom: 0.5rem;
-  right: 1vw;
+
+  & > .button {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 1vw;
+  }
 }
 .show-title {
   display: flex;
@@ -126,8 +131,9 @@ figure {
 }
 #action-bar {
   margin-bottom: 2vh;
-}
-#action-bar > .field {
-  justify-content: flex-end;
+
+  & > .field {
+    justify-content: flex-end;
+  }
 }
 </style>

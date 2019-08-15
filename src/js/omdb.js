@@ -18,13 +18,33 @@ export default {
                 "name": username,
                 "password": password
             })
-        }).then(res => res.json().then(data => ({status: res.status, body: data})))
+        }).then(res => res.json().then(data => ({ status: res.status, body: data })))
             .then(response => {
                 if (response.status === 200) {
                     localStorage.setItem("authToken", response.body.token)
                     return true
                 } else {
                     localStorage.removeItem("authToken")
+                    return false
+                }
+            })
+    },
+
+    signup(username, password) {
+        fetch(baseUrl + "/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "name": username,
+                "password": password
+            })
+        }).then(res => res.json().then(data => ({ status: res.status, body: data })))
+            .then(response => {
+                if (response.status === 200) {
+                    return true
+                } else {
                     return false
                 }
             })

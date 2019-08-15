@@ -9,6 +9,7 @@
       </b-field>
       <p class="control has-text-centered">
         <button class="button is-primary" @click="login({name: name, pass: pass})">Login</button>
+        <button class="button is-primary" @click="signup({name: name, pass: pass})">Signup</button>
       </p>
     </div>
   </section>
@@ -24,7 +25,7 @@ export default {
       pass: ""
     };
   },
-  methods: mapActions('user', ['login'])
+  methods: mapActions('user', ['login', 'signup'])
 };
 </script>
 

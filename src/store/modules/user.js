@@ -11,14 +11,20 @@ const getters = {
 }
 
 const actions = {
-    login: ({commit}, userForm) => {
+    login: ({ commit }, userForm) => {
         const logSuccessful = omdb.login(userForm.name, userForm.pass)
         commit('loginState', logSuccessful)
+    },
+    signup: ({ dispatch }, userForm) => {
+        const success = omdb.signup(userForm.name, userForm.pass)
+        if (success) {
+            dispatch('login', userForm)
+        }
     }
 }
 
 const mutations = {
-    loginState: (state, {value}) => {
+    loginState: (state, { value }) => {
         state.loggedIn = value
     }
 }
