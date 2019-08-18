@@ -2,24 +2,22 @@
   <div class="hero is-fullheight-with-navbar">
     <div class="hero-body">
       <div class="container">
-        <video :src="videoSrc" autoplay="true" controls="true"/>
+        <video :src="src" autoplay="true" controls="true" @ended="loadNext()"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import omdb from "../js/omdb";
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: "VideoPlayer",
-  data() {
-    return {
-      videoSrc: ""
-    };
+  computed: {
+    ...mapGetters({
+      src: "videoPlayer/getSource"
+    })
   },
-  async created() {
-    this.videoSrc = await omdb.loadVideo(this.$route.params.id);
-  }
+  methods: mapActions('videoPlayer', ['loadNext'])
 };
 </script>
 

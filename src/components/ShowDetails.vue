@@ -27,12 +27,7 @@
               </div>
             </div>
             <div class="level-right">
-              <b-button
-                class="level-item"
-                tag="router-link"
-                :to="'/video/' + ep.fileId"
-                :disabled="ep.fileId === null"
-              >
+              <b-button class="level-item" @click="playEpisode(ep)" :disabled="ep.fileId === null">
                 <i class="fas fa-play" />
               </b-button>
               <b-button
@@ -110,6 +105,10 @@ export default {
         episode: ep
       });
     },
+    playEpisode(ep) {
+      this.$store.dispatch("videoPlayer/loadVideo", ep);
+      this.$router.push("/video/" + ep.fileId);
+    },
     async markSeen(episodeId, seen) {
       await omdb.setSeen(episodeId, seen);
     }
@@ -138,6 +137,6 @@ export default {
   margin: 0 10px;
 }
 li > .level {
-  margin-bottom: .2rem !important;
+  margin-bottom: 0.2rem !important;
 }
 </style>
