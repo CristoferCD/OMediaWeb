@@ -14,6 +14,7 @@ const actions = {
     loadVideo: async ({ commit }, episode) => {
         omdb.loadVideo(episode.fileId).then(src => {
             episode.src = src
+            omdb.setSeen(episode.id, true)
             commit('setCurrentlyPlaying', episode)            
         })
     },
