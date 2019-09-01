@@ -1,4 +1,4 @@
-export const baseUrl = "http://192.168.0.16:7890"
+export const baseUrl = "http://10.0.75.1:7890"
 
 export default {
     getHeaders() {
@@ -74,13 +74,9 @@ export default {
     },
 
     async setSeen(videoId, seen) {
-        const response = await fetch(baseUrl + "/episodes/" + videoId + "/seen", {
+        const response = await fetch(baseUrl + "/episodes/" + videoId + "/seen?value=" + seen, {
             method: "POST",
-            headers: this.getHeaders(),
-            body: JSON.stringify({
-                "showId": '',
-                "actionValue": seen
-            })
+            headers: this.getHeaders()
         })
         return await response.json()
     },
