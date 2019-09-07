@@ -15,7 +15,7 @@ const getters = {
         return state.episodeList.filter(ep => ep.season === state.selectedSeason)
     },
     getSeasonIdxList: (state) => {
-        return state. seasonList
+        return state.seasonList
     },
     getSelectedSeason: (state) => {
         return state.selectedSeason
@@ -49,6 +49,13 @@ const mutations = {
     },
     setSeasons: (state, { seasons }) => {
         state.seasonList = seasons
+        var lastSeen = seasons[0]
+        for (var i = state.episodeList.length - 1; i >= 0; i-=1) {
+            if (state.episodeList[i].seen === true) {
+                lastSeen = state.episodeList[i].season
+            }
+        }
+        state.selectedSeason = lastSeen
     },
     selectSeason: (state, {idx}) => {
         state.selectedSeason = idx

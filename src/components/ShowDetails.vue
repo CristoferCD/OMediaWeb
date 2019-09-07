@@ -7,7 +7,13 @@
       <h1 class="is-size-3">{{show.name}}</h1>
       <p>{{show.sinopsis}}</p>
       <div class="level">
-        <div class="level-left"></div>
+        <div class="level-left">
+          <div class="level-item">  
+            <b-button @click="openImdb(show.imdbId)">
+              <i class="fab fa-imdb"/>
+            </b-button>
+          </div>
+        </div>
         <b-field class="level-right" label="Season">
           <b-select v-model="selectedSeason">
             <option v-for="opt in seasonIdxList" :value="opt" :key="opt">{{opt}}</option>
@@ -111,6 +117,9 @@ export default {
     },
     async markSeen(episodeId, seen) {
       await omdb.setSeen(episodeId, seen);
+    },
+    openImdb(id) {
+      window.open("https:/www.imdb.com/title/"+id, "_blank");
     }
   }
 };
