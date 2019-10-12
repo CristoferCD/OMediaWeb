@@ -1,4 +1,5 @@
 import omdb from '../../js/omdb'
+import { SnackbarProgrammatic as Snackbar } from 'buefy'
 
 const state = {
     loadedShows: []
@@ -11,14 +12,22 @@ const getters = {
 }
 
 const actions = {
-    loadAllShows: async ({commit}) => {
-        const showList = await omdb.getShows()
-        commit('setLoadedShows', {value: showList})
+    loadAllShows: async ({ commit }) => {
+        try {
+            const showList = await omdb.getShows()
+            commit('setLoadedShows', { value: showList })
+        } catch (err) {
+            Snackbar.open({
+                message: err,
+                position: 'is-bottom',
+                type: 'is-danger'
+            })
+        }
     }
 }
 
 const mutations = {
-    setLoadedShows: (state, {value}) => {
+    setLoadedShows: (state, { value }) => {
         state.loadedShows = value
     }
 }

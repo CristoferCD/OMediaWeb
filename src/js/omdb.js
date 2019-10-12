@@ -1,4 +1,4 @@
-export const baseUrl = "http://10.0.75.1:7890"
+export const baseUrl = "http://localhost:7890"
 
 export default {
     getHeaders() {
@@ -55,7 +55,12 @@ export default {
             method: "GET",
             headers: this.getHeaders()
         })
-        return await response.json()
+        const value = await response.json()
+        if (response.status === 200) {
+            return value
+        } else {
+            throw value.message
+        }
     },
 
     async registerShow(imdbId) {
