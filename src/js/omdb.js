@@ -63,6 +63,19 @@ export default {
         }
     },
 
+    async getFollowingShows() {
+        const response = await fetch(baseUrl + "/shows/following", {
+            method: "GET",
+            headers: this.getHeaders()
+        })
+        const value = await response.json()
+        if (response.status === 200) {
+            return value
+        } else {
+            throw value.message
+        }
+    },
+
     async registerShow(imdbId) {
         await fetch(baseUrl + "/shows?imdbId=" + imdbId, {
             method: "POST",

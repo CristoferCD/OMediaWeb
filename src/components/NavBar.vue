@@ -21,6 +21,9 @@
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
         <div class="navbar-item">
+          <router-link to="/following">Following</router-link>
+        </div>
+        <div class="navbar-item">
           <router-link to="/discover">Discover</router-link>
         </div>
       </div>

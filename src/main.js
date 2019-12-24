@@ -7,6 +7,7 @@ import Discover from './components/Discover.vue'
 import VideoPlayer from './components/VideoPlayer.vue'
 import ShowDetails from './components/ShowDetails'
 import Login from './components/Login.vue'
+import Following from './components/Following'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 
@@ -31,6 +32,10 @@ const router = new Router({
     {
       path: "/login",
       component: Login
+    },
+    {
+      path: "/following",
+      component: Following
     },
     {
       path: "/discover",

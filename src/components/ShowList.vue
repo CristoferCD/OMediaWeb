@@ -1,13 +1,5 @@
 <template>
   <div>
-    <section id="action-bar">
-      <b-field>
-        <b-input placeholder="Register show..." v-model="imdbId"></b-input>
-        <p class="control">
-          <b-button class="is-primary" @click="registerShow">Add</b-button>
-        </p>
-      </b-field>
-    </section>
     <section id="show-list">
       <div class="show-item" v-for="show in shows" :key="show.imdbId" @click="openDetails(show)">
         <div class="show-card">
@@ -27,21 +19,19 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import omdb from "../js/omdb";
 
 export default {
   name: "ShowList",
-  computed: mapGetters("showlist", { shows: "getAllShows" }),
+  props: {
+    shows: Array
+  },
   data() {
     return {
       currentShow: {},
       isDetailsModalActive: false,
       imdbId: ""
     };
-  },
-  created() {
-    this.$store.dispatch("showlist/loadAllShows");
   },
   methods: {
     openDetails: function(show) {
@@ -128,12 +118,5 @@ figure {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   width: 80%;
   margin: auto;
-}
-#action-bar {
-  margin-bottom: 2vh;
-
-  & > .field {
-    justify-content: flex-end;
-  }
 }
 </style>
