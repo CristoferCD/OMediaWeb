@@ -76,6 +76,13 @@ export default {
         }
     },
 
+    async follow(imdbId, doFollow) {
+        await fetch(baseUrl + "/shows/" + imdbId + "/follow?value=" + doFollow, {
+            method: "POST",
+            headers: this.getHeaders()
+        })
+    },
+
     async registerShow(imdbId) {
         await fetch(baseUrl + "/shows?imdbId=" + imdbId, {
             method: "POST",

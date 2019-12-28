@@ -8,13 +8,14 @@
         </p>
       </b-field>
     </section>
-    <ShowList :shows="shows"/>
+    <ShowList :shows="shows" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import ShowList from "./ShowList.vue";
+import omdb from "../js/omdb";
 
 export default {
   name: "Home",
@@ -24,6 +25,12 @@ export default {
   computed: mapGetters("showlist", { shows: "getAllShows" }),
   created() {
     this.$store.dispatch("showlist/loadAllShows");
+  },
+  methods: {
+    registerShow: async function() {
+      await omdb.registerShow(this.imdbId);
+      this.shows = await omdb.getShows();
+    }
   }
 };
 </script>

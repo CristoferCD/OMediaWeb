@@ -8,9 +8,8 @@
           </figure>
         </div>
         <div class="show-info is-overlay">
-          <p>{{show.name}}</p>
-          <b-button>
-            <i class="far fa-calendar-plus" />
+          <b-button size="is-small" @click="follow(show.imdbId)">
+            <i class="fa fa-plus" />
           </b-button>
         </div>
       </div>
@@ -20,7 +19,6 @@
 
 <script>
 import omdb from "../js/omdb";
-
 export default {
   name: "ShowList",
   props: {
@@ -34,13 +32,11 @@ export default {
     };
   },
   methods: {
-    openDetails: function(show) {
+    openDetails(show) {
       this.$router.push("/show/" + show.imdbId);
     },
-
-    registerShow: async function() {
-      await omdb.registerShow(this.imdbId);
-      this.shows = await omdb.getShows();
+    async follow(id) {
+      await omdb.follow(id, true);
     }
   }
 };
@@ -70,7 +66,6 @@ figure {
   position: relative;
   border-radius: 6px;
   flex: 1 1 0;
-  max-width: 12vw;
   min-width: 10rem;
   margin: 0.8vw;
 
@@ -87,16 +82,19 @@ figure {
 .show-card {
   box-shadow: 3px 3px 20px black;
   border-radius: 6px;
+  max-width: 12vw;
   height: 100%;
 }
 .show-info {
   transition: 0.3s;
   opacity: 0;
+  position:absolute;
+  left: 12vw;
 
   & > .button {
     position: absolute;
-    bottom: 0.5rem;
-    right: 1vw;
+    left: .25rem;
+    bottom: 0;
   }
 }
 .show-title {
