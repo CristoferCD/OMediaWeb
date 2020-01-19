@@ -1,4 +1,4 @@
-export const baseUrl = "http://localhost:7890"
+export const baseUrl = "http://192.168.50.133:7890"
 
 export default {
     getHeaders() {
