@@ -1,13 +1,13 @@
 <template>
   <div>
     <section id="show-list">
-      <div class="show-item" v-for="show in shows" :key="show.imdbId" @click="openDetails(show)">
-        <div class="show-card">
+      <div class="show-item" v-for="show in shows" :key="show.imdbId">
+        <div class="show-card" @click="openDetails(show)">
           <figure class="image">
             <img :src="show.imgPoster" />
           </figure>
         </div>
-        <div class="show-info is-overlay">
+        <div class="show-info">
           <b-button size="is-small" @click="follow(show.imdbId)">
             <i class="fa fa-plus" />
           </b-button>
@@ -67,33 +67,38 @@ figure {
   border-radius: 6px;
   flex: 1 1 0;
   min-width: 10rem;
+  max-width: 12vw;
   margin: 0.8vw;
 
   &:hover {
     & > .show-card {
-      filter: blur(3px);
+      filter: blur(2px);
     }
 
     & > .show-info {
       opacity: 1;
+      & > .button {
+        right: -2rem;
+      }
     }
   }
 }
 .show-card {
   box-shadow: 3px 3px 20px black;
   border-radius: 6px;
-  max-width: 12vw;
   height: 100%;
 }
 .show-info {
   transition: 0.3s;
   opacity: 0;
   position:absolute;
-  left: 12vw;
+  width: 100%;
+  z-index: 1;
 
   & > .button {
     position: absolute;
-    left: .25rem;
+    right: 0;
+    transition: right .3s;
     bottom: 0;
   }
 }
