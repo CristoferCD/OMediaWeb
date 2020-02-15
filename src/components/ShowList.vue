@@ -13,6 +13,14 @@
           </b-button>
         </div>
       </div>
+      <div class="hero is-fullheight-with-navbar" v-if="!shows.length">
+        <div class="hero-body">
+          <div class="container">
+            <i class="far fa-times-circle" />
+            <h3 class="title">No shows</h3>
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 </template>
@@ -62,6 +70,9 @@ figure {
   border-radius: 6px;
   height: 100%;
 }
+.hero-body {
+  background-color: transparent;
+}
 .show-item {
   position: relative;
   border-radius: 6px;
@@ -91,14 +102,14 @@ figure {
 .show-info {
   transition: 0.3s;
   opacity: 0;
-  position:absolute;
+  position: absolute;
   width: 100%;
   z-index: 1;
 
   & > .button {
     position: absolute;
     right: 0;
-    transition: right .3s;
+    transition: right 0.3s;
     bottom: 0;
   }
 }
