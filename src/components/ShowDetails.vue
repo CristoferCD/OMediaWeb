@@ -8,9 +8,9 @@
       <p>{{show.sinopsis}}</p>
       <div class="level">
         <div class="level-left">
-          <div class="level-item">  
+          <div class="level-item">
             <b-button @click="openImdb(show.imdbId)">
-              <i class="fab fa-imdb"/>
+              <i class="fab fa-imdb" />
             </b-button>
           </div>
         </div>
@@ -22,28 +22,26 @@
       </div>
       <ul>
         <li class="box" v-for="ep in episodes" :key="ep.id">
-          <div class="level">
-            <div class="level-left">
-              <p class="level-item">{{ep.episodeNumber}}</p>
-              <div class="level-item">
-                <div>
-                  <p class="is-size-6 has-text-weight-semibold">{{ep.name}}</p>
-                  <p class="is-size-7">{{ep.airDate}}</p>
-                </div>
+          <div class="columns is-vcentered">
+            <p class="column is-narrow">{{ep.episodeNumber}}</p>
+            <div class="column">
+              <div>
+                <p class="is-size-6 has-text-weight-semibold">{{ep.name}}</p>
+                <p class="is-size-7">{{ep.airDate}}</p>
               </div>
             </div>
-            <div class="level-right">
-              <b-button class="level-item" @click="playEpisode(ep)" :disabled="ep.fileId === null">
+            <div class="column is-narrow buttons">
+              <b-button @click="playEpisode(ep)" :disabled="ep.fileId === null">
                 <i class="fas fa-play" />
               </b-button>
               <b-button
-                :class="{ 'level-item is-light': !ep.seen, 'level-item is-success': ep.seen}"
+                :class="{ 'is-light': !ep.seen, 'is-success': ep.seen}"
                 @click="markSeen(ep.id, !ep.seen)"
               >
                 <i class="far fa-eye" v-show="ep.seen" />
                 <i class="far fa-eye-slash" v-show="!ep.seen" />
               </b-button>
-              <b-upload class="level-item" v-model="file" @input="uploadFile(show.imdbId, ep)">
+              <b-upload v-model="file" @input="uploadFile(show.imdbId, ep)">
                 <a class="button">
                   <i class="fas fa-upload" />
                 </a>
@@ -119,7 +117,7 @@ export default {
       await omdb.setSeen(episodeId, seen);
     },
     openImdb(id) {
-      window.open("https:/www.imdb.com/title/"+id, "_blank");
+      window.open("https:/www.imdb.com/title/" + id, "_blank");
     }
   }
 };
@@ -139,13 +137,10 @@ export default {
   box-shadow: 3px 3px 20px black;
 }
 .box {
-  padding: 0.5vw !important;
+  padding: 0 !important;
   margin-bottom: 0.5rem !important;
 }
 .field > .label {
   margin: 0 10px;
-}
-li > .level {
-  margin-bottom: 0.2rem !important;
 }
 </style>
