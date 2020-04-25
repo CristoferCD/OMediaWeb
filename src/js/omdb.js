@@ -1,4 +1,4 @@
-export const baseUrl = "http://192.168.50.133:7890"
+export const baseUrl = process.env.VUE_APP_API_URL
 
 export default {
     getHeaders() {

@@ -1,9 +1,13 @@
-FROM node:latest
-COPY ./ /app
+# build stage
+FROM node:lts-alpine as build-stage
 WORKDIR /app
-RUN npm install && npm run build
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
 
-FROM nginx
-RUN mkdir /omediaweb
-COPY --from=0 /app/dist /omediaweb
-COPY /conf/nginx.conf /etc/nginx/nginx.conf
+# production stage
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html/openmediadb
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
