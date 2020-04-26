@@ -8,8 +8,8 @@
         <b-input type="password" v-model="pass" password-reveal/>
       </b-field>
       <p class="control has-text-centered">
-        <button class="button is-primary" @click="login({name: name, pass: pass})">Login</button>
-        <button class="button is-primary" @click="signup({name: name, pass: pass})">Signup</button>
+        <button class="button is-primary" @click="login({name: name, password: pass})">Login</button>
+        <button class="button is-primary" @click="signup({name: name, password: pass})">Signup</button>
       </p>
     </div>
   </section>

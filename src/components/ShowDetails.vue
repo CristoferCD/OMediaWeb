@@ -65,7 +65,6 @@
 </template>
 
 <script>
-import omdb from "../js/omdb";
 import { mapGetters } from "vuex";
 
 export default {
@@ -98,9 +97,7 @@ export default {
   },
   methods: {
     seasonChanged() {
-      this.$store.commit("showDetails/selectSeason", {
-        idx: this.selectedSeason
-      });
+      this.$store.commit("showDetails/selectSeason", this.selectedSeason);
     },
     uploadFile(id, ep) {
       this.$store.dispatch("fileUpload/uploadFile", {
@@ -114,7 +111,10 @@ export default {
       this.$router.push("/video/" + ep.fileId);
     },
     async markSeen(episodeId, seen) {
-      await omdb.setSeen(episodeId, seen);
+      this.$store.dispatch("showDetails/setSeen", {
+        episodeId: episodeId,
+        seen: seen
+      })
     },
     openImdb(id) {
       window.open("https:/www.imdb.com/title/" + id, "_blank");

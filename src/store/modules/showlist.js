@@ -1,5 +1,7 @@
-import omdb from '../../js/omdb'
+import Repository from '../../js/repositories/RepositoryFactory'
 import { SnackbarProgrammatic as Snackbar } from 'buefy'
+
+const ShowRepo = Repository.get("show")
 
 const state = {
     loadedShows: []
@@ -13,30 +15,38 @@ const getters = {
 
 const actions = {
     loadAllShows: async ({ commit }) => {
-        try {
-            const showList = await omdb.getShows()
-            commit('setLoadedShows', { value: showList })
-        } catch (err) {
-            commit('setLoadedShows', { value: [] })
-            Snackbar.open({
-                message: err,
-                position: 'is-bottom',
-                type: 'is-danger'
+        ShowRepo.list()
+            .then((res) => {
+                commit('setLoadedShows', { value: res.data })
             })
-        }
+            .catch((err) => {
+                commit('setLoadedShows', { value: [] })
+                Snackbar.open({
+                    message: err,
+                    position: 'is-bottom',
+                    type: 'is-danger'
+                })
+            })
     },
     loadFollowing: async ({ commit }) => {
-        try {
-            const followed = await omdb.getFollowingShows()
-            commit('setLoadedShows', { value: followed })
-        } catch (err) {
-            commit('setLoadedShows', { value: [] })
-            Snackbar.open({
-                message: err,
-                position: 'is-bottom',
-                type: 'is-danger'
+        ShowRepo.listFollowing()
+            .then((res) => {
+                commit('setLoadedShows', { value: res.data })
+            }).catch((err) => {
+                commit('setLoadedShows', { value: [] })
+                Snackbar.open({
+                    message: err,
+                    position: 'is-bottom',
+                    type: 'is-danger'
+                })
             })
-        }
+    },
+    follow: async (state, imdbId) => {
+        ShowRepo.follow(imdbId, true)
+    },
+    add: async ({dispatch}, imdbId) => {
+        ShowRepo.register(imdbId)
+        dispatch('loadAllShows')
     }
 }
 

@@ -15,7 +15,6 @@
 <script>
 import { mapGetters } from "vuex";
 import ShowList from "./ShowList.vue";
-import omdb from "../js/omdb";
 
 export default {
   name: "Home",
@@ -28,8 +27,7 @@ export default {
   },
   methods: {
     registerShow: async function() {
-      await omdb.registerShow(this.imdbId);
-      this.shows = await omdb.getShows();
+      this.$store.dispatch("showlist/add", this.imdbId)
     }
   }
 };

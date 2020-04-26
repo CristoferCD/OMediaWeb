@@ -15,7 +15,7 @@
 
 <script>
 import ShowList from "./ShowList.vue";
-import omdb from "../js/omdb";
+import { mapGetters } from 'vuex';
 
 export default {
   name: "Discover",
@@ -25,16 +25,17 @@ export default {
   data() {
     return {
       query: "",
-      shows: [],
-      isLoading: false
     };
   },
+  computed: {
+    ...mapGetters({
+      shows: "search/getShows",
+      isLoading: "search/isLoading"
+    })
+  },
   methods: {
-    async search() {
-      this.isLoading = true
-      const pagedShows = await omdb.search(this.query);
-      this.shows = pagedShows.data
-      this.isLoading = false
+    search() {
+      this.$store.dispatch("search/search", this.query)
     }
   }
 };

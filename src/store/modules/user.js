@@ -1,4 +1,5 @@
-import omdb from '../../js/omdb'
+import Repository from '../../js/repositories/RepositoryFactory'
+const UserRepo = Repository.get("user")
 
 const state = {
     loggedIn: false
@@ -11,12 +12,12 @@ const getters = {
 }
 
 const actions = {
-    login: ({ commit }, userForm) => {
-        const logSuccessful = omdb.login(userForm.name, userForm.pass)
-        commit('loginState', logSuccessful)
+    login: async ({ commit }, userForm) => {
+        const success = await UserRepo.login(userForm)
+        commit('loginState', success)
     },
-    signup: ({ dispatch }, userForm) => {
-        const success = omdb.signup(userForm.name, userForm.pass)
+    signup: async ({ dispatch }, userForm) => {
+        const success = await UserRepo.signup(userForm)
         if (success) {
             dispatch('login', userForm)
         }

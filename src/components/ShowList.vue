@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import omdb from "../js/omdb";
 export default {
   name: "ShowList",
   props: {
@@ -43,8 +42,8 @@ export default {
     openDetails(show) {
       this.$router.push("/show/" + show.imdbId);
     },
-    async follow(id) {
-      await omdb.follow(id, true);
+    follow(id) {
+      this.$store.dispatch("showlist/follow", id)
     }
   }
 };
