@@ -1,5 +1,5 @@
 <template>
-  <div class="media">
+  <div id="show-detail" class="media">
     <figure class="media-left">
       <img :src="show.imgPoster" />
     </figure>
@@ -14,16 +14,20 @@
             </b-button>
           </div>
         </div>
-        <b-field class="level-right" label="Season">
-          <b-select v-model="selectedSeason">
-            <option v-for="opt in seasonIdxList" :value="opt" :key="opt">{{opt}}</option>
-          </b-select>
-        </b-field>
+        <div class="level-right">
+          <b-field label="Season">
+            <b-select v-model="selectedSeason">
+              <option v-for="opt in seasonIdxList" :value="opt" :key="opt">{{opt}}</option>
+            </b-select>
+          </b-field>
+        </div>
       </div>
       <ul>
         <li class="box" v-for="ep in episodes" :key="ep.id">
           <div class="columns is-vcentered">
-            <p class="column is-narrow">{{ep.episodeNumber}}</p>
+            <div class="column is-narrow episode-number">
+              <p>{{ep.episodeNumber}}</p>
+            </div>
             <div class="column">
               <div>
                 <p class="is-size-6 has-text-weight-semibold">{{ep.name}}</p>
@@ -91,7 +95,7 @@ export default {
         return this.$store.getters["showDetails/getSelectedSeason"];
       },
       set(value) {
-        this.$store.commit("showDetails/selectSeason", { idx: value });
+        this.$store.commit("showDetails/selectSeason", value);
       }
     }
   },
@@ -114,7 +118,7 @@ export default {
       this.$store.dispatch("showDetails/setSeen", {
         episodeId: episodeId,
         seen: seen
-      })
+      });
     },
     openImdb(id) {
       window.open("https:/www.imdb.com/title/" + id, "_blank");
@@ -123,24 +127,29 @@ export default {
 };
 </script>
 
-<style>
-.media {
+<style scoped lang="scss">
+#show-detail.media {
   width: 80%;
   margin: 0 auto;
   padding: 2vw 0;
+
+  & > .media-left {
+    width: 15%;
+    padding: 0.8vw;
+
+    & > img {
+      box-shadow: 3px 3px 20px black;
+    }
+  }
 }
-.media-left {
-  width: 15%;
-  padding: 0.8vw;
-}
-.media-left > img {
-  box-shadow: 3px 3px 20px black;
-}
+
 .box {
   padding: 0 !important;
-  margin-bottom: 0.5rem !important;
 }
 .field > .label {
   margin: 0 10px;
+}
+.episode-number {
+  margin-left: 1.2rem;
 }
 </style>

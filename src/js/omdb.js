@@ -1,28 +1,6 @@
 export const baseUrl = process.env.VUE_APP_API_URL
 
 export default {
-    getHeaders() {
-        return {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.authToken
-        }
-    },
-
-    async getEpisodes(showId) {
-        const response = await fetch(baseUrl + "/episodes?show=" + showId, {
-            method: "GET",
-            headers: this.getHeaders()
-        })
-        return await response.json()
-    },
-
-    async setSeen(videoId, seen) {
-        const response = await fetch(baseUrl + "/episodes/" + videoId + "/seen?value=" + seen, {
-            method: "POST",
-            headers: this.getHeaders()
-        })
-        return await response.json()
-    },
 
     async loadVideo(id) {
         const response = await fetch(baseUrl + "/files/" + id, {
