@@ -1,5 +1,7 @@
 import Vue from 'vue'
-import omdb from '../../js/omdb'
+import Repository from '../../js/repositories/RepositoryFactory'
+
+const VideoRepo = Repository.get('video')
 
 const state = {
     uploadProgress: {},
@@ -21,7 +23,11 @@ const actions = {
               commit('updateProgress', {episodeId: episode.id, progress: prog})
             } 
         }
-        omdb.uploadFile(file, showId, episode.season, episode.episodeNumber, fun)
+        VideoRepo.uploadFile(file, {
+            showId: showId,
+            seasonNumber: episode.season,
+            episodeNumber: episode.episodeNumber
+        }, fun)
     }
 }
 

@@ -1,4 +1,6 @@
-import omdb from '../../js/omdb'
+import Repository from '../../js/repositories/RepositoryFactory'
+
+const VideoRepo = Repository.get('video')
 
 const state = {
     currentlyPlaying: {}
@@ -11,12 +13,16 @@ const getters = {
 }
 
 const actions = {
-    loadVideo: async ({ commit }, episode) => {
-        omdb.loadVideo(episode.fileId).then(src => {
-            episode.src = src
-            omdb.setSeen(episode.id, true)
-            commit('setCurrentlyPlaying', episode)            
-        })
+    loadVideo: async ({ commit, dispatch }, episode) => {
+        VideoRepo.loadVideo(episode.fileId)
+            .then(src => {
+                episode.src = src
+                dispatch('showDetails/setSeen', {
+                    episodeId: episode.id,
+                    seen: true
+                }, { root: true })
+                commit('setCurrentlyPlaying', episode)
+            })
     },
     loadNext: async ({ dispatch, state, rootState }) => {
         const currentEpisode = state.currentlyPlaying
@@ -26,7 +32,7 @@ const actions = {
         if (nextEpisode === undefined) {
             nextEpisode = rootState.showDetails.episodeList
                 .find(ep => ep.season === currentEpisode.season + 1 && ep.episodeNumber === 1)
-        } 
+        }
         if (nextEpisode != undefined && nextEpisode.fileId != undefined) {
             dispatch('loadVideo', nextEpisode)
         }
