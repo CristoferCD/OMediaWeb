@@ -16,5 +16,18 @@ export default {
                 value: seen
             }
         })
+    },
+
+    async listSubtitles(episodeId) {
+        return client.get(`${resource}/${episodeId}/subtitles`)
+    },
+
+    async getSubtitle(provider, url) {
+        return client.get(`${resource}/subtitle`, {
+            data: {
+                provider: provider,
+                url: url
+            }
+        })
     }
 }
