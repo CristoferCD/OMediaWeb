@@ -23,11 +23,11 @@ export default {
     },
 
     async getSubtitle(provider, url) {
-        return client.get(`${resource}/subtitle`, {
-            data: {
+        return client.post(`${resource}/subtitle`,
+            {
                 provider: provider,
                 url: url
             }
-        })
+        )
     }
 }

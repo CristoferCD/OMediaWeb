@@ -3,8 +3,12 @@
     <div class="hero is-fullheight-with-navbar">
       <div class="hero-body">
         <div class="container">
-          <video :src="src" autoplay="true" controls="true" @ended="loadNext()" />
-          <b-button @click="loadSubtitles()"/>
+          <vue-plyr>
+            <video :src="src" autoplay="true" controls="true" @ended="loadNext()">
+              <track :label="subtitle.label" kind="subtitles" :src="subtitle.src" default />
+            </video>
+          </vue-plyr>
+          <b-button @click="loadSubtitles()" />
         </div>
       </div>
     </div>
@@ -29,14 +33,15 @@ export default {
   },
   computed: {
     ...mapGetters({
-      src: "videoPlayer/getSource"
+      src: "videoPlayer/getSource",
+      subtitle: "videoPlayer/getSubtitle"
     })
   },
   methods: {
     ...mapActions("videoPlayer", ["loadNext"]),
     loadSubtitles() {
-      this.subtitleModalActive = true
-      this.$store.dispatch("videoPlayer/listSubtitles")
+      this.subtitleModalActive = true;
+      this.$store.dispatch("videoPlayer/listSubtitles");
     }
   }
 };
