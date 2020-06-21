@@ -72,13 +72,21 @@ figure {
 .hero-body {
   background-color: transparent;
 }
+#show-list {
+  display: grid;
+  align-items: center;
+  grid-gap: 1.5vw;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  width: 85%;
+  margin: auto;
+}
 .show-item {
   position: relative;
   border-radius: 6px;
   flex: 1 1 0;
-  min-width: 10rem;
+  min-width: 8rem;
   max-width: 12vw;
-  margin: 0.8vw;
+  margin: auto;
 
   &:hover {
     & > .show-card {
@@ -124,12 +132,5 @@ figure {
 .image > img {
   border-radius: 6px;
   height: 100%;
-}
-#show-list {
-  display: grid;
-  grid-gap: 1.5vw;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  width: 80%;
-  margin: auto;
 }
 </style>
