@@ -10,12 +10,10 @@ import Login from './components/Login.vue'
 import Following from './components/Following'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
-import VuePlyr from 'vue-plyr'
 
 Vue.config.productionTip = false
 Vue.use(Router)
 Vue.use(Buefy)
-Vue.use(VuePlyr)
 
 const router = new Router({
   routes: [

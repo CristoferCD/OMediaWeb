@@ -3,12 +3,10 @@
     <div class="hero is-fullheight-with-navbar">
       <div class="hero-body">
         <div class="container">
-          <vue-plyr>
-            <video :src="src" autoplay="true" controls="true" @ended="loadNext()">
-              <track :label="subtitle.label" kind="subtitles" :src="subtitle.src" default />
-            </video>
-          </vue-plyr>
-          <b-button @click="loadSubtitles()" />
+          <video :src="src" autoplay="true" controls="true" @ended="loadNext()">
+            <track :label="subtitle.label" kind="subtitles" :src="subtitle.src" default />
+          </video>
+          <b-button v-text="Subtitles" @click="loadSubtitles()" />
         </div>
       </div>
     </div>
