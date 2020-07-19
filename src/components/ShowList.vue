@@ -1,7 +1,7 @@
 <template>
   <div>
-    <section id="show-list">
-      <div class="show-item" v-for="show in shows" :key="show.imdbId">
+    <section id="show-list" class="columns is-mobile is-multiline">
+      <div class="show-item column is-1-fullhd is-2-tablet is-half-mobile" v-for="show in shows" :key="show.imdbId">
         <div class="show-card" @click="openDetails(show)">
           <figure class="image">
             <img :src="show.imgPoster" />
@@ -73,10 +73,6 @@ figure {
   background-color: transparent;
 }
 #show-list {
-  display: grid;
-  align-items: center;
-  grid-gap: 1.5vw;
-  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
   width: 85%;
   margin: auto;
 }
@@ -84,8 +80,6 @@ figure {
   position: relative;
   border-radius: 6px;
   flex: 1 1 0;
-  min-width: 8rem;
-  max-width: 12vw;
   margin: auto;
 
   &:hover {
