@@ -1,7 +1,7 @@
 <template>
   <div>
     <section id="show-list" class="columns is-mobile is-multiline">
-      <div class="show-item column is-1-fullhd is-2-tablet is-half-mobile" v-for="show in shows" :key="show.imdbId">
+      <div class="show-item" v-for="show in shows" :key="show.imdbId">
         <div class="show-card" @click="openDetails(show)">
           <figure class="image">
             <img :src="show.imgPoster" />
@@ -43,7 +43,7 @@ export default {
       this.$router.push("/show/" + show.imdbId);
     },
     follow(id) {
-      this.$store.dispatch("showlist/follow", id)
+      this.$store.dispatch("showlist/follow", id);
     }
   }
 };
@@ -75,12 +75,12 @@ figure {
 #show-list {
   width: 85%;
   margin: auto;
+  justify-content: center;
 }
 .show-item {
   position: relative;
   border-radius: 6px;
-  flex: 1 1 0;
-  margin: auto;
+  margin: .8em;
 
   &:hover {
     & > .show-card {
@@ -94,7 +94,20 @@ figure {
       }
     }
   }
+  @media (max-width: 640px) {
+    width: 30%;
+  }
+  @media (min-width: 641px) {
+    width: 20%;
+  }
+  @media (min-width: 960px) {
+    width: 15%;
+  }
+  @media (min-width: 1200px) {
+    width: 10%;
+  }
 }
+
 .show-card {
   box-shadow: 3px 3px 20px black;
   border-radius: 6px;
