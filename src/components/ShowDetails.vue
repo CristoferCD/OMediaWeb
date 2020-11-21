@@ -4,8 +4,8 @@
       <img :src="show.imgPoster" />
     </figure>
     <div class="media-content">
-      <h1 class="is-size-3">{{show.name}}</h1>
-      <p>{{show.sinopsis}}</p>
+      <h1 class="is-size-3 has-text-left">{{show.name}}</h1>
+      <p class="has-text-left">{{show.sinopsis}}</p>
       <div class="level">
         <div class="level-left">
           <div class="level-item">
